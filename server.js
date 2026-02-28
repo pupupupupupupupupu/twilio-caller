@@ -96,22 +96,6 @@ app.post("/incoming", (req, res) => {
   res.type("text/xml").send(twiml.toString());
 });
 
-// --- Outgoing Call Webhook ---
-app.post("/outgoing", (req, res) => {
-  const callSid = req.body.CallSid;
-  const toRaw = req.body.To || "";
-  const to = normalizeNumber(toRaw);
-
-  initCallState(callSid);
-
-  const data = callers[to];
-  const twiml = new VoiceResponse();
-
-  createSpeechGather(twiml, getGreeting(data));
-
-  res.type("text/xml").send(twiml.toString());
-});
-
 // --- Process Speech ---
 app.post("/process", (req, res) => {
   const callSid = req.body.CallSid;
